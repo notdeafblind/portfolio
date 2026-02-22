@@ -4,7 +4,7 @@
 
 layout: home
 ---
-![banner1](/assets/gold_wheel.png){: style="height:100px"}
+![banner1](https://notdeafblind.github.io/portfolio/assets/gold_wheel.png){: style="height:100px"}
 ![banner2](/assets/blue_wheel.png){: style="height:100px"}
 ![banner3](/assets/gold_wheel.png){: style="height:100px"}
 ![banner4](/assets/blue_wheel.png){: style="height:100px"}
