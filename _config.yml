@@ -20,7 +20,7 @@
 
 title: P5.js Portfolio
 email: sheng.111@osu.edu
-description: This is an website for Rebecca Sheng's p5.js sketch works.
+description: This is a website for Rebecca Sheng's p5.js sketch works.
 baseurl: "/portfolio" # the subpath of your site, e.g. /blog
 url: "https://notdeafblind.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: JiayueSheng
