@@ -10,4 +10,4 @@ Either the tail or the head will be randomly displayed.
 <br>
 Click the "Play Again" button to reset game. 
 </p>
-<iframe src="{{ site.baseurl }}/p5_sketches/coin/index.html" width="600" height="600" style="border:none;" frameborder="0" scrolling="no"></iframe>
+<iframe src="{{ site.url }}{{ site.baseurl }}/p5_sketches/coin/index.html" width="600" height="600" style="border:none;" frameborder="0" scrolling="no"></iframe>

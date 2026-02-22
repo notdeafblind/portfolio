@@ -11,4 +11,4 @@ Reenact the classic Solitaire winning animation in dots or ace poker.
 Click the "Play Again" button to rechoose style. 
 <br> 
 </p>
-<iframe src="{{ site.baseurl }}/p5_sketches/dots/index.html" width="800" height="800" style="border:none;" frameborder="0" scrolling="no"></iframe>
+<iframe src="{{ site.url }}{{ site.baseurl }}/p5_sketches/dots/index.html" width="800" height="800" style="border:none;" frameborder="0" scrolling="no"></iframe>
