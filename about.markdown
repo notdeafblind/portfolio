@@ -12,7 +12,7 @@ permalink: /about/
 	</style>
 </head>
 <body>
-<p style="font-size:40px; font-family: 'Merriweather'">
+<p style="font-size:35px; font-family: 'Merriweather'">
 I am an art student at OSU. 
 <br>
 This website will showcase my P5.js works.
