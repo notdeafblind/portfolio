@@ -29,6 +29,8 @@ p {text-align: center;}
 ![banner7](/assets/gold_wheel.png){: style="height:100px"}
 ![banner8](/assets/blue_wheel.png){: style="height:100px"}
 
+![coin link](/assets/coin.png)]({{ site.url }}{{ site.baseurl }}/coin/)
+
 <html>
 <a href="{{ site.baseurl }}coin.html">
     <img src="{{ site.baseurl }}/assets/coin.png" width = "100" height = "100" style="border:none alt="Link to coin sketch">
