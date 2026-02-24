@@ -34,5 +34,5 @@ p {text-align: center;}
 [![poker link](/assets/poker_icon.png){: style="height:100px"}]({{ site.url }}{{ site.baseurl }}/dots/)
 
 <html>
-<iframe src="{{ site.baseurl }}/p5_sketches/arc/index.html" width="600" height="400" style="border:none;" frameborder="0" scrolling="no"></iframe>
+<iframe src="{{ site.baseurl }}/p5_sketches/arc/index.html" width="600" height="600" style="border:none;" frameborder="0" scrolling="no"></iframe>
 </html>
