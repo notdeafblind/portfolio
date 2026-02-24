@@ -29,7 +29,7 @@ p {text-align: center;}
 ![banner7](/assets/gold_wheel.png){: style="height:100px"}
 ![banner8](/assets/blue_wheel.png){: style="height:100px"}
 
-[![coin link](/assets/coin_icon.png){: style="height:120px"}]({{ site.url }}{{ site.baseurl }}/coin/)
+[![coin link](/assets/coin_icon.png){: style="height:100px"}]({{ site.url }}{{ site.baseurl }}/coin/)
 [![blackhole link](/assets/blackhole_icon.png){: style="height:120px"}]({{ site.url }}{{ site.baseurl }}/blackhole/)
 [![poker link](/assets/poker_icon.png){: style="height:120px"}]({{ site.url }}{{ site.baseurl }}/dots/)
 
