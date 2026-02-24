@@ -30,8 +30,8 @@ p {text-align: center;}
 ![banner8](/assets/blue_wheel.png){: style="height:100px"}
 
 [![coin link](/assets/coin_icon.png){: style="height:200px"}]({{ site.url }}{{ site.baseurl }}/coin/)
-[![blackhole link](/assets/blackhole.png){: style="height:200px"}]({{ site.url }}{{ site.baseurl }}/blackhole/)
-[![poker link](/assets/card.png){: style="height:200px"}]({{ site.url }}{{ site.baseurl }}/dots/)
+[![blackhole link](/assets/blackhole_icon.png){: style="height:200px"}]({{ site.url }}{{ site.baseurl }}/blackhole/)
+[![poker link](/assets/poker_icon.png){: style="height:200px"}]({{ site.url }}{{ site.baseurl }}/dots/)
 
 <html>
 <iframe src="{{ site.baseurl }}/p5_sketches/arc/index.html" width="800" height="400" style="border:none;" frameborder="0" scrolling="no"></iframe>
