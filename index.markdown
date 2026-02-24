@@ -30,8 +30,8 @@ p {text-align: center;}
 ![banner8](/assets/blue_wheel.png){: style="height:100px"}
 
 <html>
-<a href="coin.html">
-    <img src="{{site.baseurl}}/assets/coin.png" width = "100" height = "100" style="border:none alt="Link to coin sketch">
+<a href="{{ site.baseurl }}coin.html">
+    <img src="{{ site.baseurl }}/assets/coin.png" width = "100" height = "100" style="border:none alt="Link to coin sketch">
 </a>
 <iframe src="{{ site.baseurl }}/p5_sketches/arc/index.html" width="800" height="400" style="border:none;" frameborder="0" scrolling="no"></iframe>
 </html>
