@@ -29,7 +29,7 @@ p {text-align: center;}
 ![banner7](/assets/gold_wheel.png){: style="height:100px"}
 ![banner8](/assets/blue_wheel.png){: style="height:100px"}
 
-[![coin link](/assets/coin.png){: style = "height:100px"}]({{ site.url }}{{ site.baseurl }}/coin/)
+[![coin link](/assets/coin.png){: style="height:100px"}]({{ site.url }}{{ site.baseurl }}/coin/)
 
 <html>
 <iframe src="{{ site.baseurl }}/p5_sketches/arc/index.html" width="800" height="400" style="border:none;" frameborder="0" scrolling="no"></iframe>
