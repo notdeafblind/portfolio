@@ -3,7 +3,7 @@ layout: page
 title: About me
 permalink: /about/
 ---
-![my avatar](/assets/rip.jpg)
+![my avatar](/assets/rip.jpg){: style="height:300px"}
 <html>
 <head>
 	<title> About me </title>
