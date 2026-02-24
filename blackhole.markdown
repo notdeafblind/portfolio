@@ -6,7 +6,7 @@ permalink: /blackhole/
  <head>
     <title>Black Hole</title>
   </head>
-<p style="font-size:30px; font-family: 'https://fonts.gstatic.com/s/sourceserif4/v8/vEFy2_tTDB4M7-auWDN0ahZJW3IX2ih5nk3AucvUHf6OAVIJmeUDygwjihdqrhxXD-wGvjU.ttf'">
+<p style="font-size:20px; font-family: 'https://fonts.gstatic.com/s/sourceserif4/v8/vEFy2_tTDB4M7-auWDN0ahZJW3IX2ih5nk3AucvUHf6OAVIJmeUDygwjihdqrhxXD-wGvjU.ttf'">
 Click to drag the two planets, one on orbit, and the other freely. 
 <br>
 The orbital planet starts as blue. As it gets closer to the black hole center, its color gets more red, reflecting the planet's temperature. 
