@@ -14,4 +14,4 @@ The outer red circle indicates hour. The inner small red circle indicates minute
 There are 3 modes of light. Dawn and dusk light is red. Morning and afternoon light is yellow. Evening light is white. 
 <br> 
 </p>
-<iframe src="{{ site.url }}{{ site.baseurl }}/p5_sketches/clock/index.html" width="800" height="800" style="border:none;" frameborder="0" scrolling="no"></iframe>
+<iframe src="{{ site.url }}{{ site.baseurl }}/p5_sketches/clock/index.html" width="1000" height="1000" style="border:none;" frameborder="0" scrolling="no"></iframe>
