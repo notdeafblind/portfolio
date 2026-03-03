@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Black hole simulator
-permalink: /blackhole/
+title: Clock
+permalink: /clock/
 ---
  <head>
     <title>Clock</title>
