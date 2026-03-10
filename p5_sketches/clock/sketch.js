@@ -1,10 +1,30 @@
 /*
-* Title: Homework 7 Super Simple Clock
-* Author: Rebecca Sheng
-* Date:  SP 2026
-* Simple Description: This code displays a clock. The hour, minute and second can be read from the red segments of the shape. There are two modes for system time and custom time. Light rays from the shape will change based on the hour. The clock shape will change based on window size. 
-* Instructions: Run the code to select one of two modes, system time or custom time. In system time, the time is displayed based on current system time. On custom mode, user can enter the hour they would like to see. The minute and seconds will be displayed as system time. In both modes, press the center button to return to title page and select mode again. 
-*/
+ * Title: Homework 7 Super Simple Clock
+ * Author: Rebecca Sheng
+ * Date:  SP 2026
+ * Simple Description: This code displays a clock. The hour, minute and second can be read from the red segments of the shape. There are two modes for system time and custom time. Light rays from the shape will change based on the hour. The clock shape will change based on window size.
+ * Instructions: Run the code to select one of two modes, system time or custom time. In system time, the time is displayed based on current system time. On custom mode, user can enter the hour they would like to see. The minute and seconds will be displayed as system time. In both modes, press the center button to return to title page and select mode again.
+ */
+
+let glass_img;
+let red_glass;
+let yellow_glass;
+let purple_glass;
+let deep_blue_glass;
+let blue_purple_glass;
+
+let flower0;
+let flower1;
+let flower2;
+let flower3;
+let flower4;
+let flower5;
+let flower6;
+let flower7;
+let flower8;
+let flower9;
+let flower10;
+let flower11;
 
 let font;
 let sentence = "selectagain";
@@ -38,26 +58,70 @@ let timeLastUpdated = Date.now();
 
 let button_show = false;
 
+//For outer crystal growth
+let dia_scale;
+let dia_change_x;
+let dia_change_y;
+let current_time;
+let max_scale = 0.8;
+let grow_fac = 0.8;
+let main_orig;
+
+let diamonds = [];
+let main_d;
+let timerStart = 80;
+let init_alpha = 0;
+let alpha_inter;
+
+//let shape;
+let floewr_fade = 0;
+let flower_time;
+let flower_flag = 0;
+
+let again_flag = false;
+
 const TIME_BETWEEN_RANDOMIZATIONS = 100;
 
 function preload() {
   font = loadFont("Lavish.ttf");
   font2 = loadFont("EagleLake.ttf");
   font3 = loadFont("fireSans.ttf");
+  glass_img = loadImage("stained_glass_blue.jpg");
+  red_glass = loadImage("stained_glass_red2.jpg");
+  yellow_glass = loadImage("stained_glass_yellow_small.jpg");
+  purple_glass = loadImage("stained_glass_purple.jpg");
+  deep_blue_glass = loadImage("stained_glass_deep_blue.jpg");
+  blue_purple_glass = loadImage("stained_glass_blue_purple.jpg");
+  //shape = loadModel("lunar_tear.obj", true);
+  flower0 = loadImage("/flowers/flower0.png");
+  flower1 = loadImage("/flowers/flower1.png");
+  flower2 = loadImage("/flowers/flower2.png");
+  flower3 = loadImage("/flowers/flower3.png");
+  flower4 = loadImage("/flowers/flower4.png");
+  flower5 = loadImage("/flowers/flower5.png");
+  flower6 = loadImage("/flowers/flower6.png");
+  flower7 = loadImage("/flowers/flower7.png");
+  flower8 = loadImage("/flowers/flower8.png");
+  flower9 = loadImage("/flowers/flower9.png");
+  flower10 = loadImage("/flowers/flower10.png");
+  flower11 = loadImage("/flowers/flower11.png");
 }
 
 function setup() {
+  //yellow_glass.resize(128, 256);
+  //deep_blue_glass.resize(128, 181)
   sentenceArray = sentence.split("");
   r = windowWidth / 25;
   if (gpu_mode) {
-    createCanvas(windowWidth, windowHeight, WEBGL);
+    //createCanvas(windowWidth, windowHeight, WEBGL);
+    createCanvas(1000, 1000, WEBGL);
   } else {
     createCanvas(windowWidth, windowHeight);
   }
 
   //print(windowHeight)
-  l = windowWidth;
-  h = windowHeight;
+  l = 1000;
+  h = 1000;
   cy = height / 2;
   px = 0;
   py = cy;
@@ -65,21 +129,44 @@ function setup() {
     outer_line_length[i] = random(20, 80);
   }
   frameRate(25);
+  dia_scale = 1;
+  dia_change_y = h / 30;
+  dia_change_x = -l / 20;
+  main_orig = { x: 0, y: -h / 2.5 };
+  grow_start = millis();
+  //frameRate(30);
+  current_time = millis();
+  alpha_inter = map(5, 0, 255, 0, 1);
+
+  let d = new Diamond(
+    main_orig,
+    max_scale,
+    dia_change_x,
+    dia_change_y,
+    timerStart,
+    init_alpha,
+    alpha_inter
+  );
+  main_d = new Diamond(main_orig, 1, 0, 0, 80, 1, 1);
+  diamonds.push(d);
+  current_time = millis();
+  flower_time = millis();
 }
 
 function draw() {
   background(0);
   colorMode(HSB);
   angleMode(DEGREES);
-  //translate(l/2, h/2)
-
+  //ambientLight(100);
+  //pointLight(10, 10, 10, 0, 0, 100);
   if (time_mode == 0) {
     // Title mode
+    again_flag = false;
     textFont(font);
     textSize(l / 10);
     textAlign(CENTER);
     fill(255, 0, 100, fade);
-    text("The Clock", 0, -50);
+    text("The Clock", -l/10, -50);
     if (fade < 0) fadeAmount = 0.015;
 
     if (fade > 1) fadeAmount = -0.015;
@@ -98,6 +185,7 @@ function draw() {
     button_custom.mousePressed(custom_time);
   } else if (time_mode == 2) {
     // Custom time mode
+    again_flag = false;
     textFont(font);
     textSize(l / 10);
     textAlign(CENTER);
@@ -114,43 +202,33 @@ function draw() {
     button_confirm.style("height", "50px");
     button_confirm.mousePressed(custom_hour);
   } else if (time_mode == 3) {
-    
     let hour_value = hourInput.value();
-    button_again = createButton("Again");
-    button_again.position(l / 2 - l / 50, h / 2 - 20);
-    button_again.style("width", "40px");
-    button_again.style("height", "40px");
-    button_again.hide();
-    if (dist(mouseX - l / 2, mouseY - h / 2, 0, 0) < l / 25) {
-      button_again.show();
-      //button_show = true
+    // Add custom button
+    let d = l / 25;
+    if (!again_flag) {
+      if (dist(mouseX, mouseY, l / 2, h / 2) <= d) {
+        cursor("grab");
+      } else {
+        cursor(ARROW);
+      }
+    } else if (dist(mouseX, mouseY, l / 2, h / 2) <= d) {
+      cursor(ARROW);
+      choose_again();
     }
-    //button_again.mouseOver(toggle_button);
-    button_again.mousePressed(choose_again);
     draw_clock(hour_value);
     draw_circle();
-    fill(100, 0, 100);
-    textAlign(CENTER);
-    textSize(23);
-    textFont(font3);
-    let text_x = r * cos(theta);
-    let text_y = r * sin(theta);
-    for (let i = 0; i < sentenceArray.length; i++) {
-      rotate(360 / sentenceArray.length);
-      text(sentenceArray[i], text_x, text_y);
-    }
   } else {
-    button_again = createButton("Again");
-    button_again.position(l / 2 - l / 50, h / 2 - 20);
-    button_again.style("width", "40px");
-    button_again.style("height", "40px");
-    button_again.hide();
-    if (dist(mouseX - l / 2, mouseY - h / 2, 0, 0) < l / 25) {
-      button_again.show();
-      //button_show = true
+    let d = l / 25;
+    if (!again_flag) {
+      if (dist(mouseX, mouseY, l / 2, h / 2) <= d) {
+        cursor("grab");
+      } else {
+        cursor(ARROW);
+      }
+    } else if (dist(mouseX, mouseY, l / 2, h / 2) <= d) {
+      cursor(ARROW);
+      choose_again();
     }
-    //button_again.mouseOver(toggle_button);
-    button_again.mousePressed(choose_again);
     draw_clock(hour());
     draw_circle();
     fill(100, 0, 100);
@@ -159,12 +237,12 @@ function draw() {
     textFont(font3);
     let text_x = r * cos(theta);
     let text_y = r * sin(theta);
-    for (let i = 0; i < sentenceArray.length; i++) {
-      rotate(360 / sentenceArray.length);
-      text(sentenceArray[i], text_x, text_y);
-    }
   }
 }
+function mouseClicked() {
+  again_flag = !again_flag;
+}
+
 function toggle_button() {
   if (button_show) {
     button_again.show();
@@ -177,6 +255,7 @@ function choose_again() {
   //noLoop()
   clear();
   time_mode = 0;
+  again_flag = false;
 }
 
 function draw_circle() {
@@ -185,6 +264,7 @@ function draw_circle() {
   noStroke();
   //center circle
   fill(circle_window_color);
+  texture(glass_img);
   circle(0, 0, l / 25);
   pop();
 }
@@ -197,6 +277,47 @@ function draw_clock(hour_value) {
 
   //Draw ray of light
   draw_light(hour_value);
+
+  for (let i = diamonds.length - 1; i >= 0; i--) {
+    // Get the branch, update and draw it
+    let d = diamonds[i];
+    d.update();
+    push();
+    frameRate(10);
+
+    for (j = 0; j < window_num; j++) {
+      rotate(360 / window_num);
+      d.show();
+    }
+
+    pop();
+
+    // If it's ready to split
+    if (d.timeToBranch()) {
+      if (d.max_scale > 0.2) {
+        diamonds.push(d.diamond(1)); // Add one going right
+        diamonds.push(d.diamond(2)); // Add one going left
+      }
+    }
+  }
+  if ((millis() - current_time) / 1000 > 30) {
+    diamonds = [];
+    alpha_inter = map(5, 0, 255, 0, 1);
+    let d = new Diamond(
+      main_orig,
+      max_scale,
+      dia_change_x,
+      dia_change_y,
+      80,
+      init_alpha,
+      alpha_inter
+    );
+    diamonds.push(d);
+    current_time = millis();
+
+    flower_flag = 1;
+    flower_time = millis();
+  }
 }
 
 function custom_hour() {
@@ -215,37 +336,25 @@ function draw_windows() {
   noFill();
   stroke(outer_line_color);
   strokeWeight(5);
-  //circle(0, 0, 9.5*l/10)
-  for (i = 0; i < outer_line_num; i++) {
-    rotate_angle = map(i, 0, outer_line_num, 0, 360);
-    rotate(rotate_angle);
-    line(0, l / 2.3, 0, l / 2.3 + outer_line_length[i]);
-  }
-
   pop();
 
   push();
   //inner rectangular window
   noStroke();
-  fill(inner_window_color);
+  //fill(inner_window_color);
+  texture(yellow_glass);
+  textureMode(NORMAL);
   for (i = 0; i < window_num; i++) {
-    glow(inner_window_color, 40);
     draw_inner_window();
     rotate(360 / 12);
   }
   pop();
 
   push();
-  //stroke(100, 0, 100)
   noStroke();
-  //strokeWeight(1)
-  //noFill();
   fill(inner_curve_window_color);
   for (i = 0; i < window_num; i++) {
     rotate(360 / 12);
-    glow(inner_curve_window_color, 20);
-    draw_inner_curve_window();
-    glow(inner_curve_window_color, 20);
     draw_inner_curve_window();
   }
 
@@ -255,12 +364,10 @@ function draw_windows() {
   //outer rectangular windows
   noStroke();
   fill(outer_window_color);
-
+  textureMode(NORMAL);
+  texture(purple_glass);
   for (i = 0; i < window_num; i++) {
     rotate(360 / window_num);
-    glow(outer_window_color, 20);
-    draw_outer_window();
-    glow(outer_window_color, 20);
     draw_outer_window();
   }
 
@@ -269,14 +376,10 @@ function draw_windows() {
   push();
   fill(insert_window_color);
   noStroke();
-  //stroke(100, 0, 100)
-  //strokeWeight(2)
 
   for (i = 0; i < window_num; i++) {
     rotate(360 / window_num);
-    glow(insert_window_color, 40);
     draw_insert_window();
-    glow(insert_window_color, 40);
     draw_insert_window();
   }
   pop();
@@ -284,25 +387,12 @@ function draw_windows() {
   push();
   fill(outer_deco_color);
   noStroke();
-  //stroke(100, 0, 100)
-  //strokeWeight(5)
   for (i = 0; i < window_num; i++) {
     rotate(360 / window_num);
     push();
-    glow(outer_deco_color, 40);
-    draw_diamond();
-    glow(outer_deco_color, 40);
     draw_diamond();
     pop();
-    //draw_outer_deco(-20)
-    //draw_outer_deco(20)
-    glow(outer_deco_color, 40);
     draw_outer_deco(40);
-    glow(outer_deco_color, 40);
-    draw_outer_deco(40);
-    glow(outer_deco_color, 40);
-    draw_outer_deco(-40);
-    glow(outer_deco_color, 40);
     draw_outer_deco(-40);
   }
   pop();
@@ -313,7 +403,7 @@ function draw_circular_windows() {
   let circle_window_color = color(180, 16, 100);
   push();
   //center circle
-  fill(circle_window_color);
+  texture(glass_img);
   circle(0, 0, l / 25);
   pop();
 
@@ -321,6 +411,7 @@ function draw_circular_windows() {
   stroke(100, 100, 0);
   strokeWeight(8);
   fill(circle_window_color);
+  texture(glass_img);
   for (i = 0; i < window_num; i++) {
     rotate(360 / window_num);
 
@@ -331,6 +422,7 @@ function draw_circular_windows() {
   push();
 
   fill(circle_window_color);
+  texture(glass_img);
   //Inner circular windows
   for (i = 0; i < window_num; i++) {
     strokeWeight(8);
@@ -338,6 +430,36 @@ function draw_circular_windows() {
     circle(0, l / 10, l / 25);
   }
   pop();
+}
+
+function select_texture(angle) {
+  if (angle % 360 == 0) {
+    return flower0;
+  } else if (angle % 360 == 30) {
+    return flower1;
+  } else if (angle % 360 == 60) {
+    return flower2;
+  } else if (angle % 360 == 90) {
+    return flower3;
+  } else if (angle % 360 == 120) {
+    return flower4;
+  } else if (angle % 360 == 150) {
+    return flower5;
+  } else if (angle % 360 == 180) {
+    return flower6;
+  } else if (angle % 360 == 210) {
+    return flower7;
+  } else if (angle % 360 == 240) {
+    return flower8;
+  } else if (angle % 360 == 270) {
+    return flower9;
+  } else if (angle % 360 == 300) {
+    return flower10;
+  } else if (angle % 360 == 330) {
+    return flower11;
+  } else {
+    return red_glass;
+  }
 }
 
 function draw_time(hour_value) {
@@ -353,22 +475,25 @@ function draw_time(hour_value) {
   push();
   //Draw minute representation
   fill(hour_color);
+
   noStroke();
   minute_range = (minute() - (minute() % 5) + 5) / 5;
   minute_angle = map(minute_range, 0, 12, 0, 360);
-  //print(minute_angle)
+  texture(select_texture(minute_angle));
   rotate(minute_angle);
-  glow(hour_color, 40);
-  circle(0, -l / 10, l / 35);
+  circle(0, -l / 10, l / 25);
   pop();
 
   push();
   //Draw hour representation
   fill(hour_color);
-  noStroke();
+
+  //noStroke();
+  stroke(10);
   hour_angle = map(hour_value, 0, 12, 0, 360);
+  texture(select_texture(hour_angle));
   rotate(hour_angle);
-  circle(0, -h / 3, l / 19);
+  circle(0, -h / 3, l / 15);
   pop();
 }
 
@@ -379,13 +504,13 @@ function draw_light(hour_value) {
   let light_night_color = color(150, 0, 80, alpha / 1.8);
   let light_dawn_color = color(10, 20, 100, alpha / 12);
   push();
-  //frameRate(30)
   h_light = 400;
   light_start_y = map(hour_value, 6, 18, -l / 4, l / 4);
   light_width = map(hour_value, 0, 12, 500, 200);
   if (hour_value >= 19 || hour_value <= 5) {
+    //night mode
+
     push();
-    //frameRate(10)
     let ray_num = 1000;
 
     if (Date.now() - timeLastUpdated > TIME_BETWEEN_RANDOMIZATIONS) {
@@ -425,6 +550,7 @@ function draw_light(hour_value) {
     (hour_value > 16) & (hour_value < 19)
   ) {
     light_mode = "dawn";
+    //ambientLight(80);
     for (let x = light_width; x < width - light_width; x += 1) {
       if (x % 2 == 0) {
         if (x == 0) {
@@ -455,6 +581,7 @@ function draw_light(hour_value) {
     nx += 0.00005 * h_light;
   } else {
     light_mode = "day";
+    //ambientLight(120);
     for (let x = light_width; x < width - light_width; x += 1) {
       if (x == 0) {
         px = 0;
@@ -520,14 +647,16 @@ function draw_outer_deco(deco_angle) {
   pop();
 }
 function draw_insert_window() {
+  textureMode(NORMAL);
+  texture(deep_blue_glass);
   push();
   rotate(15);
   beginShape();
-  vertex(0, -h / 10);
-  vertex(-l / 80, -h / 2.7);
-  vertex(0, -h / 2);
-  vertex(l / 80, -h / 2.7);
-  vertex(0, -h / 10);
+  vertex(0, -h / 10, 0.5, 0.4);
+  vertex(-l / 80, -h / 2.7, 0.5 + 1 / 100, 1 / 2.7);
+  vertex(0, -h / 2, 0.5, 0);
+  vertex(l / 80, -h / 2.7, 0.5 - 1 / 100, 1 / 2.7);
+  vertex(0, -h / 10, 0.5, 0.4);
   endShape();
   pop();
 }
@@ -550,27 +679,30 @@ function draw_outer_window() {
   let q4 = { x: l / 100, y: -h / 5 };
   beginShape();
   // Specify the first anchor point
-  vertex(p1.x, p1.y);
+  vertex(p1.x, p1.y, 0.2, 0.2);
   // Specify the other points for bezierVertex()
   bezierVertex(p2.x, p2.y, p3.x, p3.y, p4.x, p4.y);
 
-  vertex(-l / 100, -h / 2.87);
-  vertex(-l / 20, -h / 2.87);
-  vertex(p1.x, p1.y);
+  vertex(-l / 100, -h / 2.87, 0.2, 0.4);
+  vertex(-l / 20, -h / 2.87, 0.4, 0.8);
+  vertex(p1.x, p1.y, 1, 1);
   endShape();
 
   beginShape();
   // Specify the first anchor point
-  vertex(q1.x, q1.y);
+  vertex(q1.x, q1.y, 0.2, 0.2);
   // Specify the other points for bezierVertex()
   bezierVertex(q2.x, q2.y, q3.x, q3.y, q4.x, q4.y);
 
-  vertex(l / 100, -h / 2.87);
-  vertex(l / 20, -h / 2.87);
-  vertex(q1.x, q1.y);
+  vertex(l / 100, -h / 2.87, 0.2, 0.6);
+  vertex(l / 20, -h / 2.87, 0.8, 0.8);
+  vertex(q1.x, q1.y, 1, 1);
   endShape();
 }
 function draw_inner_curve_window() {
+  //textureMode(NORMAL);
+  //texture(blue_purple_glass)
+
   beginShape();
   let p1 = { x: -l / 40, y: -h / 6.2 };
   // First Control Point
@@ -600,95 +732,13 @@ function draw_inner_curve_window() {
   endShape();
 }
 function draw_inner_window() {
+  textureMode(NORMAL);
+  texture(yellow_glass);
   beginShape();
-  vertex(-l / 100, -h / 15);
-  vertex(-l / 40, -h / 6.6);
-  vertex(l / 40, -h / 6.6);
-  vertex(l / 100, -h / 15);
-  vertex(-l / 100, -h / 15);
+  vertex(-l / 100, -h / 150, 0, 0);
+  vertex(-l / 40, -h / 6.6, 0, 1);
+  vertex(l / 40, -h / 6.6, 0.5, 0);
+  vertex(l / 100, -h / 15, 0.5, 1);
+  vertex(-l / 100, -h / 15, 1, 1);
   endShape();
 }
-function glow(glowColor, blurriness) {
-  drawingContext.shadowColor = glowColor;
-  drawingContext.shadowBlur = blurriness;
-}
-
-/*
-  push()
-  //Outer circular windows
-  for(i = 0; i < window_num; i ++){
-    fill(circle_window_color)
-    strokeWeight(8)
-    rotate(360/12)
-    circle(0, l/3.5, l/20)
-  }
-  pop()
-  */
-
-/*
-    light_mode = 'night'
-    for(let x = 100; x < width-100; x+=1) {
-      if (x == 0) {
-        px = 0;
-      }
-         let x_range = random(-light_radius, light_radius)
-    let y_range = 0
-    if(random(0, 1) < 0.25){
-      //print('here')
-      y_range = sqrt(abs(sq(light_radius) - sq(x_range))) + map(noise(x*0.01,nx), 0, 1, 0, h_light)
-    }
-    else if(random(0, 1) >= 0.25 < 0.5){
-      //print('here')
-      y_range = sqrt(abs(sq(light_radius) - sq(x_range))) - map(noise(x*0.01,nx), 0, 1, 0, h_light)
-    }
-    else if(random(0, 1) >= 0.5 < 0.75){
-      //print('here')
-      y_range = -sqrt(abs(sq(light_radius) - sq(x_range))) - map(noise(x*0.01,nx), 0, 1, 0, h_light)
-    }
-    else{
-      y_range = -sqrt(abs(sq(light_radius) - sq(x_range))) + map(noise(x*0.01,nx), 0, 1, 0, h_light)
-    }
-    
-    push()
-    stroke(150,0, 100, alpha/15);
-    strokeWeight(10)
-    line(0,0, x-l/2, y_range);
-    pop()
-    push()
-    strokeWeight(10)
-    stroke(light_night_color);
-    line(0,0, x-l/2, y_range);
-    //ine(0,0, x-width/2, y-depthGreen);
-    pop()
-    
-  }
-  nx += 0.00005*h_light;
-  */
-
-/*
-  for(let x = light_width; x < width-light_width; x+=1) {
-  if(x%2 == 0){
-    if (x == 0) {
-      px = 0;
-    }
-    //print(cy)
-    let y = cy + map(noise(x*0.01,nx), 0, 1, 0, h_light);
-    let depthGreen = map(noise (x*0.05,nx),0,1,20,h_light);
-    let depthPink = map(noise (x*0.1,nx),0,1,-h_light/2,h_light*1.5);
-        
-    stroke(light_color1);
-    strokeWeight(5)
-    line(0,light_start_y, x-width/2, y-depthPink);
-    
-    stroke(10,20,100, alpha/12);
-    line(0,light_start_y, x-width/2, y-depthGreen);
-
-
-    px = x;
-    py = y;
-  }
-    
-
-  }
-  nx += 0.00005*h_light;
-  */
