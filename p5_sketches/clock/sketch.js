@@ -84,7 +84,7 @@ const TIME_BETWEEN_RANDOMIZATIONS = 100;
 
 function preload() {
   font = loadFont("Lavish.ttf");
-  font2 = loadFont("EagleLake.ttf");
+  //font2 = loadFont("EagleLake.ttf");
   font3 = loadFont("fireSans.ttf");
   glass_img = loadImage("stained_glass_blue.jpg");
   red_glass = loadImage("stained_glass_red2.jpg");
