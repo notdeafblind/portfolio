@@ -93,18 +93,18 @@ function preload() {
   deep_blue_glass = loadImage("stained_glass_deep_blue.jpg");
   blue_purple_glass = loadImage("stained_glass_blue_purple.jpg");
   //shape = loadModel("lunar_tear.obj", true);
-  flower0 = loadImage("/flowers/flower0.png");
-  flower1 = loadImage("/flowers/flower1.png");
-  flower2 = loadImage("/flowers/flower2.png");
-  flower3 = loadImage("/flowers/flower3.png");
-  flower4 = loadImage("/flowers/flower4.png");
-  flower5 = loadImage("/flowers/flower5.png");
-  flower6 = loadImage("/flowers/flower6.png");
-  flower7 = loadImage("/flowers/flower7.png");
-  flower8 = loadImage("/flowers/flower8.png");
+  flower0 = loadImage("./flowers/flower0.png");
+  flower1 = loadImage("./flowers/flower1.png");
+  flower2 = loadImage("./flowers/flower2.png");
+  flower3 = loadImage("./flowers/flower3.png");
+  flower4 = loadImage("./flowers/flower4.png");
+  flower5 = loadImage("./flowers/flower5.png");
+  flower6 = loadImage("./flowers/flower6.png");
+  flower7 = loadImage("./flowers/flower7.png");
+  flower8 = loadImage("./flowers/flower8.png");
   flower9 = loadImage("/flowers/flower9.png");
-  flower10 = loadImage("/flowers/flower10.png");
-  flower11 = loadImage("/flowers/flower11.png");
+  flower10 = loadImage("./flowers/flower10.png");
+  flower11 = loadImage("./flowers/flower11.png");
 }
 
 function setup() {
