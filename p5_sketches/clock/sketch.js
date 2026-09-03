@@ -171,7 +171,7 @@ function draw() {
     textSize(l / 10);
     textAlign(CENTER);
     fill(255, 0, 100, fade);
-    text("The Clock", 140, -50);
+    text("The Clock", 0, -50);
     if (fade < 0) fadeAmount = 0.015;
 
     if (fade > 1) fadeAmount = -0.015;
