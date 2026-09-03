@@ -98,7 +98,7 @@ function preload() {
   // deep_blue_glass = loadImage("stained_glass_deep_blue.jpg");
   // blue_purple_glass = loadImage("stained_glass_blue_purple.jpg");
   //shape = loadModel("lunar_tear.obj", true);
-  flower0 = loadImage("./flowers/flower0.png");
+  flower0 = loadImage("blue_wheel_cut.png");
   flower1 = flower0
   flower2= flower0
   flower3 = flower0
@@ -171,7 +171,7 @@ function draw() {
     textSize(l / 10);
     textAlign(CENTER);
     fill(255, 0, 100, fade);
-    text("The Clock", -l/10, -50);
+    text("The Clock", 140, -50);
     if (fade < 0) fadeAmount = 0.015;
 
     if (fade > 1) fadeAmount = -0.015;
